@@ -1,0 +1,9 @@
+---
+
+- name: Setup - Install Centos 6 Dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - libselinux-python

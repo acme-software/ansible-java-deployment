@@ -1,0 +1,8 @@
+---
+
+- name: "Stop - Check if instance {{ deploy_instance_nr }} exists"
+  stat:
+    path: "{{ deploy_dir_app }}"
+  register: deploy_instance_exists
+
+# when: deploy_instance_exists.stat.exists == True

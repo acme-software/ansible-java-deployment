@@ -1,0 +1,129 @@
+# Default variables for the playbook, override them for your own deployment
+
+# General Settings
+###############################################
+
+# Remove and re-add application directory during deployment
+deploy_setting_clear_instance_app_dir: True
+
+# Extract contents from subdir of the artifact instead of root-level
+#
+# Some artifact contain exactly one subdirectory, where the application is stored. Most asset archives (e.g. in Java),
+# contain exactly one directory (which ist often named after the asset itself) where the application is located.
+# This is a kinda special switch which enables extracting the contents of this subdir instead of the archive root.
+deploy_setting_artifact_contains_subdir: False
+
+# Name of the subdirectory in the asset which contains the application
+#
+# Defaults to the asset extraction directory name. See description of deploy_setting_artifact_contains_subdir.
+deploy_setting_artifact_contains_subdir_name: "{{ deploy_artifact_dirname }}"
+
+# If false, downloads will be removed after successful installation
+#
+# Keep this vfalue true, if you deploy different instances of the same artifact, so it has only to be downloaded once
+deploy_setting_keep_downloads: False
+
+# Instance
+###############################################
+
+deploy_app_name: "application"
+
+# The number of the instance to deploy. This can be used to deploy multiple instances on the same server.
+#
+# Almost every config, like the application_dir contain this number.
+deploy_instance_nr: 1
+
+# As which user the application should be started
+deploy_app_user: www-data
+
+# As which group the application should be started
+deploy_app_group: www-data
+
+# The URL, where the artifact (zip, tar.gz) should be downloaded
+deploy_artifact_url: "INVALID_PLEASE_SET_deploy_artifact_url_VARIABLE"
+
+# Filename of the downloaded artifact
+#
+# Defaults to the basename of the download url
+deploy_artifact_filename: "{{ deploy_artifact_url | basename }}"
+
+# Directory name for extraction target
+#
+# Default is the filename of the artifact without extension
+deploy_artifact_dirname: "{{ (deploy_artifact_filename | splitext)[0] }}"
+
+# Directories
+###############################################
+
+# Base directory where all application instances are deployed to (must be an absoslute path)
+#
+# Ensure that this directory exists and the ansible use has write access to it
+deploy_dir_base: "/opt/app"
+
+# Base directory for all application instances
+deploy_dir_instances: "{{ deploy_dir_base }}/instances"
+
+# Directory where the application instance is being deployed
+deploy_dir_instance: "{{ deploy_dir_instances }}/{{ deploy_instance_nr }}"
+
+# Base directory for app instances
+deploy_dir_app: "{{ deploy_dir_instance }}/app"
+
+# Base directory for logs
+#
+# By default, we stay sandboxed in 'deploy_dir_base', but feel free to change this to e.g. /var/log/myapp if you have write access to it.
+deploy_dir_logs: "{{ deploy_dir_instance }}/logs"
+
+# Base directory for configuration files
+#
+# By default, we stay sandboxed in 'deploy_dir_base', but feel free to change this to e.g. /etc/myapp if you have write access to it.
+deploy_dir_config: "{{ deploy_dir_instance }}/conf"
+
+# Downloads
+###############################################
+
+# Directory to store downloaded artifacts (this can be temporary)
+deploy_download_dir: "{{ deploy_dir_base }}/downloads"
+
+# Filename of the downloaded file
+deploy_download_file: "{{ deploy_download_dir }}/{{ deploy_artifact_filename }}"
+
+# Directory where downloaded artifact is being extracted
+deploy_download_extract_dir: "{{ deploy_download_dir }}/{{ deploy_artifact_dirname }}"
+
+# Service
+###############################################
+
+# Which systemloader you want to use
+#
+# This can be default, upstart or systemd
+#
+# If you keep the "default" value, the default systemloader of the used target OS will be used. This will be:
+# upstart for: Ubuntu <=14.4, RHEL
+# systemd for: Ubuntu >=16.4
+deploy_systemloader_type: default
+
+deploy_systemloader_upstart_template: "templates/service/upstart"
+
+deploy_systemloader_upstart_location: "/etc/init/{{ deploy_app_name }}-{{ deploy_instance_nr }}.conf"
+
+deploy_systemloader_systemd_template: "templates/service/systemd"
+
+deploy_systemloader_systemd_location: "..."
+
+# Additional files
+###############################################
+
+# Generate a logback configuration file
+deploy_generate_logback_config: True
+
+deploy_generate_logback_name: logback.xml
+
+deploy_generate_logback_template: "templates/additional/logback.xml"
+
+# Generate an application.conf file
+deploy_generate_conf_file: True
+
+deploy_generate_conf_name: application.conf
+
+deploy_generate_conf_template: "templates/additional/application.conf.j2"

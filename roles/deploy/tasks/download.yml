@@ -1,0 +1,27 @@
+---
+
+# Downloads and extracts the artifact
+
+- name: "Download - Check artifact already downloaded"
+  stat:
+    path: "{{ deploy_download_file }}"
+  register: deploy_artifact_downloaded
+
+- name: "Download - Receiving artifact {{ deploy_artifact_url }}"
+  get_url:
+    url: "{{ deploy_artifact_url }}"
+    dest: "{{ deploy_download_file }}"
+    mode: 0440
+  when: deploy_artifact_downloaded.stat.exists == False or deploy_setting_keep_downloads == False
+
+- name: "Download - Check artifact already extracted"
+  stat:
+    path: "{{ deploy_download_extract_dir }}"
+  register: deploy_artifact_extracted
+
+- name: "Download - Extract artifact {{ deploy_artifact_filename }} to {{ deploy_download_extract_dir }}"
+  unarchive:
+    src: "{{ deploy_download_file }}"
+    dest: "{{ deploy_download_extract_dir }}"
+    remote_src: yes
+  when: deploy_artifact_extracted.stat.exists == False or deploy_setting_keep_downloads == False

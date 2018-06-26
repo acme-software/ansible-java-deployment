@@ -1,0 +1,1 @@
+centos6 ansible_host=192.168.177.100 ansible_user=vagrant ansible_ssh_private_key_file=..//centos_6/.vagrant/machines/default/virtualbox/private_key

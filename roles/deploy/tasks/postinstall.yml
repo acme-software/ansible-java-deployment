@@ -1,0 +1,10 @@
+---
+
+# General tasks to do after installation
+
+- name: "Postinstall - Remove downloaded artifact"
+  file: path={{ item }} state=absent
+  when: deploy_setting_keep_downloads == False
+  with_items:
+    - "{{ deploy_download_file }}"
+    - "{{ deploy_download_extract_dir }}"

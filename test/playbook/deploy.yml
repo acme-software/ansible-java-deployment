@@ -1,0 +1,9 @@
+---
+
+- hosts: centos6
+  vars:
+    deploy_artifact_url: "http://192.168.177.1:8000/play-java-seed-1.0-SNAPSHOT.zip"
+    deploy_setting_artifact_contains_subdir: True
+    deploy_setting_keep_downloads: False
+  roles:
+    - ../../roles/deploy

@@ -1,0 +1,26 @@
+---
+
+- name: "Run setup for CentOS 6"
+  include_tasks: setup/centos6.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '6'
+
+- name: "Stop the instance"
+  include_tasks: stop.yml
+
+- name: "Run preinstall scripts"
+  include_tasks: preinstall.yml
+
+- name: "Download artifact"
+  include_tasks: download.yml
+
+- name: "Copy application"
+  include_tasks: copy.yml
+
+- name: "Install service"
+  include_tasks: service.yml
+
+- name: "Start instance: {{ deploy_instance_nr }}"
+  include_tasks: start.yml
+
+- name: "Run postinstall scripts"
+  include_tasks: postinstall.yml
