@@ -1,0 +1,16 @@
+---
+
+- name: Check if instance {{ deploy_instance_nr }} exists
+  stat:
+    path: "{{ deploy_appdir }}"
+    register: deploy_instance_exists
+
+- name: Stop the instance
+  include_tasks: stop.yml
+  when: deploy_instance_exists.stat.exists == True
+
+- name: Install instance: {{ deploy_instance_nr }}
+  include_tasks: install.yml
+
+- name: Start instance: {{ deploy_instance_nr }}
+  include_tasks: start.yml

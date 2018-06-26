@@ -1,0 +1,88 @@
+# Default variables for the playbook, override them for your own deployment
+
+# Instance
+###############################################
+
+# The number of the instance to deploy. This can be used to deploy multiple instances on the same server.
+# Almost every config, like the application_dir contain this number.
+deploy_instance_nr: 1
+
+# As which user the application should be started
+deploy_app_user: www-data
+
+# As which group the application should be started
+deploy_app_group: www-data
+
+# THe URL, where the artifact (zip, tar.gz) should be downloaded
+deploy_artifact_url: "INVALID_PLEASE_SET_deploy_artifact_url_VARIABLE"
+
+deploy_artifact_filename: "{{ deploy_artifact_url | basename }}"
+
+# Directories
+###############################################
+
+# Directory to store downloaded artifacts (this can be temporary)
+deploy_download_dir: "/tmp/downloads"
+
+deploy_download_file: "{{ deploy_download_dir }}/{{ deploy_artifact_filename }}"
+
+# If false, downloads will be removed after successful installation
+#
+# Note: Keep this vfalue true, if you deploy different instances of the same artifact, so it has only to be downloaded once
+deploy_download_keep: True
+
+# Base directory where all application instances are deployed to (must be an absoslute path)
+#
+# Note: Ensure that this directory exists and the ansible use has write access to it
+deploy_basedir: "/opt/app"
+
+deploy_instancedir: "{{ deploy_basedir }}/{{ deploy_instance_nr }}"
+
+# Base directory for app instances
+deploy_appdir: "{{ deploy_instancedir }}/app"
+
+# Base directory for logs
+#
+# Note: By default, we stay sandboxed in 'deploy_basedir', but feel free to change this to e.g. /var/log/myapp if you have write access to it.
+deploy_logsdir: "{{ deploy_instancedir }}/logs"
+
+# Base directory for configuration files
+#
+# Note: By default, we stay sandboxed in 'deploy_basedir', but feel free to change this to e.g. /etc/myapp if you have write access to it.
+deploy_configdir: "{{ deploy_instancedir }}/conf"
+
+# Service
+###############################################
+
+# Which systemloader you want to use
+# This can be default, upstart or systemd
+#
+# If you keep the "default" value, the default systemloader of the used target OS will be used. This will be:
+# upstart for: Ubuntu <=14.4, RHEL
+# systemd for: Ubuntu >=16.4
+deploy_systemloader_type: default
+
+deploy_systemloader_upstart_template: "templates/service/upstart"
+
+deploy_systemloader_systemd_template: "templates/service/systemd"
+
+deploy_systemloader_upstart_location: "..."
+
+deploy_systemloader_systemd_location: "..."
+
+# Additional files
+###############################################
+
+# Generate a logback configuration file
+deploy_generate_logback_config: True
+
+deploy_generate_logback_name: logback.xml
+
+deploy_generate_logback_template: "templates/additional/logback.xml"
+
+# Generate an application.conf file
+deploy_generate_conf_file: True
+
+deploy_generate_conf_name: application.conf
+
+deploy_generate_conf_template: "templates/additional/application.conf.j2"
