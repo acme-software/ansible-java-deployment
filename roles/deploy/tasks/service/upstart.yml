@@ -1,0 +1,7 @@
+---
+
+- name: "Service - Deploy upstart config to {{ deploy_service_upstart_location }}"
+  template:
+    src: "{{ deploy_service_upstart_template }}"
+    dest: "{{ deploy_service_upstart_location }}"
+  become: true

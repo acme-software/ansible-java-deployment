@@ -8,10 +8,14 @@
   register: deploy_artifact_downloaded
 
 - name: "Download - Receiving artifact {{ deploy_artifact_url }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   get_url:
     url: "{{ deploy_artifact_url }}"
     dest: "{{ deploy_download_file }}"
     mode: 0440
+    owner: "{{ deploy_app_user }}"
+    group: "{{ deploy_app_group }}"
   when: deploy_artifact_downloaded.stat.exists == False or deploy_setting_keep_downloads == False
 
 - name: "Download - Check artifact already extracted"
@@ -20,8 +24,12 @@
   register: deploy_artifact_extracted
 
 - name: "Download - Extract artifact {{ deploy_artifact_filename }} to {{ deploy_download_extract_dir }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   unarchive:
     src: "{{ deploy_download_file }}"
     dest: "{{ deploy_download_extract_dir }}"
+    owner: "{{ deploy_app_user }}"
+    group: "{{ deploy_app_group }}"
     remote_src: yes
   when: deploy_artifact_extracted.stat.exists == False or deploy_setting_keep_downloads == False

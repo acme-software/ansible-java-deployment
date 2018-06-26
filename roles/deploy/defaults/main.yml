@@ -3,6 +3,17 @@
 # General Settings
 ###############################################
 
+# Name of the deployed application
+#
+# This will be included in directory names, so  don't use special chars and stay short
+deploy_app_name: "app"
+
+# Under which user the application should be started
+deploy_app_user: "{{ deploy_app_name }}"
+
+# Under which group the application should be started
+deploy_app_group: "{{ deploy_app_name }}"
+
 # Remove and re-add application directory during deployment
 deploy_setting_clear_instance_app_dir: True
 
@@ -26,18 +37,11 @@ deploy_setting_keep_downloads: False
 # Instance
 ###############################################
 
-deploy_app_name: "application"
-
 # The number of the instance to deploy. This can be used to deploy multiple instances on the same server.
 #
 # Almost every config, like the application_dir contain this number.
 deploy_instance_nr: 1
 
-# As which user the application should be started
-deploy_app_user: www-data
-
-# As which group the application should be started
-deploy_app_group: www-data
 
 # The URL, where the artifact (zip, tar.gz) should be downloaded
 deploy_artifact_url: "INVALID_PLEASE_SET_deploy_artifact_url_VARIABLE"
@@ -58,7 +62,7 @@ deploy_artifact_dirname: "{{ (deploy_artifact_filename | splitext)[0] }}"
 # Base directory where all application instances are deployed to (must be an absoslute path)
 #
 # Ensure that this directory exists and the ansible use has write access to it
-deploy_dir_base: "/opt/app"
+deploy_dir_base: "/opt/{{ deploy_app_name }}"
 
 # Base directory for all application instances
 deploy_dir_instances: "{{ deploy_dir_base }}/instances"
@@ -94,6 +98,11 @@ deploy_download_extract_dir: "{{ deploy_download_dir }}/{{ deploy_artifact_dirna
 # Service
 ###############################################
 
+deploy_service_has_prestart_script: False
+deploy_service_prestart_script: ""
+
+deploy_service_start_command: "bin/{{ deploy_app_name }}"
+
 # Which systemloader you want to use
 #
 # This can be default, upstart or systemd
@@ -101,15 +110,15 @@ deploy_download_extract_dir: "{{ deploy_download_dir }}/{{ deploy_artifact_dirna
 # If you keep the "default" value, the default systemloader of the used target OS will be used. This will be:
 # upstart for: Ubuntu <=14.4, RHEL
 # systemd for: Ubuntu >=16.4
-deploy_systemloader_type: default
+deploy_service_type: default
 
-deploy_systemloader_upstart_template: "templates/service/upstart"
+deploy_service_upstart_template: "templates/service/upstart.conf.j2"
 
-deploy_systemloader_upstart_location: "/etc/init/{{ deploy_app_name }}-{{ deploy_instance_nr }}.conf"
+deploy_service_upstart_location: "/etc/init/{{ deploy_app_name }}-{{ deploy_instance_nr }}.conf"
 
-deploy_systemloader_systemd_template: "templates/service/systemd"
+deploy_service_systemd_template: "templates/service/systemd"
 
-deploy_systemloader_systemd_location: "..."
+deploy_service_systemd_location: "..."
 
 # Additional files
 ###############################################

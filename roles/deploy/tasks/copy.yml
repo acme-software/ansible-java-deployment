@@ -3,17 +3,25 @@
 # Copies the downloaded artifact to the app dir
 
 - name: "Copy - Delete instace app dir {{ deploy_dir_app }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   file: path={{ deploy_dir_app }} state=absent
   when: deploy_setting_clear_instance_app_dir == True
 
 - name: "Copy - Recreate instace app dir {{ deploy_dir_app }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   file: path={{ deploy_dir_app }} state=directory
   when: deploy_setting_clear_instance_app_dir == True
 
 - name: "Copy - Artifact from root level {{ deploy_download_extract_dir }} to {{ deploy_dir_app }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   command: "cp -r {{ deploy_download_extract_dir }}/. {{ deploy_dir_app }}/"
   when: deploy_setting_artifact_contains_subdir == False
 
 - name: "Copy - Artifact from subdir {{ deploy_download_extract_dir }}/{{ deploy_setting_artifact_contains_subdir_name }} to {{ deploy_dir_app }}"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
   command: "cp -r {{ deploy_download_extract_dir }}/{{ deploy_setting_artifact_contains_subdir_name }}/. {{ deploy_dir_app }}/"
   when: deploy_setting_artifact_contains_subdir == True

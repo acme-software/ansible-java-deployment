@@ -2,8 +2,27 @@
 
 # General tasks to do before artifact installation
 
+- name: "Preinstall - Ensure group {{ deploy_app_group }} is present"
+  become: yes
+  group:
+    name: "{{ deploy_app_group }}"
+    state: present
+
+- name: "Preinstall - Ensure user {{ deploy_app_user }} is present"
+  become: yes
+  user:
+    name: "{{ deploy_app_user }}"
+    group: "{{ deploy_app_group }}"
+    state: present
+
 - name: "Preinstall - Ensure directories for instance {{ deploy_instance_nr }}"
-  file: path={{ item }} state=directory
+  become: yes
+  become_user: "{{ deploy_app_user }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ deploy_app_user }}"
+    group: "{{ deploy_app_group }}"
   with_items:
     - "{{ deploy_dir_base }}"
     - "{{ deploy_download_dir }}"

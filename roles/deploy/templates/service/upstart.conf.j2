@@ -1,0 +1,43 @@
+########################################################################################################
+#
+#                                       Upstart Script
+#
+# Upstart script for {{ deploy_app_name }} instance {{ deploy_instance_nr }}
+#
+# The application is located in: {{ deploy_dir_instance }}
+#
+# Usage:
+#   sudo start {{ deploy_app_name }}-{{ deploy_instance_nr }}
+#   sudo stop {{ deploy_app_name }}-{{ deploy_instance_nr }}
+#   sudo restart {{ deploy_app_name }}-{{ deploy_instance_nr }}
+#   sudo status {{ deploy_app_name }}-{{ deploy_instance_nr }}
+#
+#########################################################################################################
+
+description "Upstart script for {{ deploy_app_name }}-{{ deploy_instance_nr }}"
+
+# Set environment variables
+env HOME={{ deploy_dir_app }}
+env LANG=en_US.UTF-8
+
+# Start and stop runlevels
+# start on runlevel [2345]
+# stop on runlevel [06]
+
+# Respawn parameters with limit: dies 3 times within 60 seconds
+respawn
+respawn limit 3 60
+
+# Change directory to current version of Tankmin
+chdir {{ deploy_dir_app }}
+
+{% if deploy_service_has_prestart_script == True %}
+# Pre-Start Script
+pre-start script
+  {{ deploy_service_prestart_script }}
+end script
+{% endif %}
+
+# Execute deploy_service_start_command and log stdout
+exec su -c "{{ deploy_service_start_command }} >>{{ deploy_dir_logs }}/stdout.log" {{ deploy_app_user }}
+
