@@ -1,0 +1,13 @@
+---
+
+- name: "Stop - Check if instance {{ deploy_instance_nr }} exists"
+  stat:
+    path: "{{ deploy_dir_app }}"
+  register: deploy_instance_exists
+
+- name: "Stop - Service {{ deploy_service_name }}"
+  become: true
+  service:
+    name: "{{ deploy_service_name }}"
+    state: stopped
+  when: deploy_instance_exists.stat.exists == True

@@ -1,0 +1,7 @@
+---
+
+- name: "Start - Service {{ deploy_service_name }}"
+  become: true
+  service:
+    name: "{{ deploy_service_name }}"
+    state: started
