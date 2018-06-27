@@ -9,10 +9,10 @@
 deploy_app_name: "app"
 
 # Under which user the application should be started
-deploy_app_user: "{{ deploy_app_name }}"
+deploy_app_user: "{{ deploy_app_name | lower }}"
 
 # Under which group the application should be started
-deploy_app_group: "{{ deploy_app_name }}"
+deploy_app_group: "{{ deploy_app_name | lower }}"
 
 # Remove and re-add application directory during deployment
 deploy_setting_clear_instance_app_dir: True
@@ -95,15 +95,29 @@ deploy_download_file: "{{ deploy_download_dir }}/{{ deploy_artifact_filename }}"
 # Directory where downloaded artifact is being extracted
 deploy_download_extract_dir: "{{ deploy_download_dir }}/{{ deploy_artifact_dirname }}"
 
+# Logs
+###############################################
+
+deploy_log_stdout: True
+
+deploy_log_stdout_path: "{{ deploy_dir_logs }}/stdout.log"
+
 # Service
 ###############################################
 
+# If true, use deploy_service_prestart_script to run every time before the service is (re-)started
 deploy_service_has_prestart_script: False
+
+# Shell script to run if deploy_service_has_prestart_script is true
 deploy_service_prestart_script: ""
 
+# The shell command used by the service to start your application
 deploy_service_start_command: "bin/{{ deploy_app_name }}"
 
-# Which systemloader you want to use
+# PID file location for service installation
+deploy_service_pidfile: "/var/run/{{ deploy_service_name }}.pid"
+
+# Which service wrapper / systemloader you want to use
 #
 # This can be default, upstart or systemd
 #
@@ -112,9 +126,11 @@ deploy_service_start_command: "bin/{{ deploy_app_name }}"
 # systemd for: Ubuntu >=16.4
 deploy_service_type: default
 
+deploy_service_name: "{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}"
+
 deploy_service_upstart_template: "templates/service/upstart.conf.j2"
 
-deploy_service_upstart_location: "/etc/init/{{ deploy_app_name }}-{{ deploy_instance_nr }}.conf"
+deploy_service_upstart_location: "/etc/init/{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}.conf"
 
 deploy_service_systemd_template: "templates/service/systemd"
 
