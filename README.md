@@ -34,6 +34,7 @@ Usage
 As described above, the whole deployment is basically a configurable Ansible role. To use it, download it from GitHub or 
 use Ansible Galaxy to install it directly into your existing playbook:
 
+*Galaxy install is not yet ready. See #1 for details.*
 ```
 ansible-galaxy install acmesoftware.java-deployment
 ```
