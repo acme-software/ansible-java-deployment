@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: acme-software
+  description: "Highly configurable deployment role for (Java/Scala) software packages"
+  company: "Acme Software Solutions Ltd."
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+      - 6
+  galaxy_tags:
+    - java
+    - scala
+    - deployment
