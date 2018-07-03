@@ -119,7 +119,7 @@ deploy_service_pidfile: "/var/run/{{ deploy_service_name }}.pid"
 
 # Which service wrapper / systemloader you want to use
 #
-# This can be default, upstart or systemd
+# This can be default, upstart, systemd or none
 #
 # If you keep the "default" value, the default systemloader of the used target OS will be used. This will be:
 # upstart for: Ubuntu <=14.4, RHEL
@@ -139,16 +139,7 @@ deploy_service_systemd_location: "..."
 # Additional files
 ###############################################
 
-# Generate a logback configuration file
-deploy_generate_logback_config: True
+# Additionaly template files to deploy. See readme for usage instructions
+deploy_additional_templates: []
 
-deploy_generate_logback_name: logback.xml
-
-deploy_generate_logback_template: "templates/additional/logback.xml"
-
-# Generate an application.conf file
-deploy_generate_conf_file: True
-
-deploy_generate_conf_name: application.conf
-
-deploy_generate_conf_template: "templates/additional/application.conf.j2"
+deploy_additional_copy: []

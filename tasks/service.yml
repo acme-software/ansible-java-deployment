@@ -10,3 +10,4 @@
   service:
     name: "{{ deploy_service_name }}"
     enabled: yes
+  when: deploy_service_type != "none"

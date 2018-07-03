@@ -16,6 +16,9 @@
 - name: "Copy application"
   include_tasks: copy.yml
 
+- name: "Deploy additional files"
+  include_tasks: additional.yml
+
 - name: "Install service"
   include_tasks: service.yml
 

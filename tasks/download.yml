@@ -17,11 +17,7 @@
     owner: "{{ deploy_app_user }}"
     group: "{{ deploy_app_group }}"
   when: deploy_artifact_downloaded.stat.exists == False or deploy_setting_keep_downloads == False
-
-- name: "Download - Check artifact already extracted"
-  stat:
-    path: "{{ deploy_download_extract_dir }}"
-  register: deploy_artifact_extracted
+  register: artifact_download
 
 - name: "Download - Extract artifact {{ deploy_artifact_filename }} to {{ deploy_download_extract_dir }}"
   become: yes
@@ -32,4 +28,4 @@
     owner: "{{ deploy_app_user }}"
     group: "{{ deploy_app_group }}"
     remote_src: yes
-  when: deploy_artifact_extracted.stat.exists == False or deploy_setting_keep_downloads == False
+  when: artifact_download is not skipped

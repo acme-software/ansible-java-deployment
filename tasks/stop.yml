@@ -4,10 +4,11 @@
   stat:
     path: "{{ deploy_dir_app }}"
   register: deploy_instance_exists
+  when: deploy_service_type != "none"
 
 - name: "Stop - Service {{ deploy_service_name }}"
   become: true
   service:
     name: "{{ deploy_service_name }}"
     state: stopped
-  when: deploy_instance_exists.stat.exists == True
+  when: deploy_instance_exists.stat.exists == True and deploy_service_type != "none"

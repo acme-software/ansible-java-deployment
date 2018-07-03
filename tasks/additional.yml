@@ -1,0 +1,12 @@
+---
+
+- name: "Additional - Deploy templates"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.user | deploy_app_user }}"
+    group: "{{ item.group | deploy_app_group }}"
+    mode: "{{ item.mode | default('0644') }}"
+  with_items: "{{ deploy_additional_templates }}"

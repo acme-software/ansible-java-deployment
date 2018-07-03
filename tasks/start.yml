@@ -5,3 +5,4 @@
   service:
     name: "{{ deploy_service_name }}"
     state: started
+  when: deploy_service_type != "none"

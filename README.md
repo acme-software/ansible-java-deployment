@@ -55,6 +55,82 @@ following example to your playbook (e.g. `deploy.yml`):
     - acmesoftware.java-deployment
 ```
 
+### Destination directory structure
+
+On the destination server, the application(s) will be deployed into the `/opt/{{ deploy_app_name }}/` directory. Unless 
+configured differently, all directories under that "app root" will be owned by the configured app user and group and 
+follow a multi-instance structure. For the basic example above, the following deirectories will be generated:
+
+```
+/opt/my-application/
+├── downloads
+└── instances
+    └── 1
+        ├── app
+        ├── conf
+        └── logs
+```
+
+The structure above is fully configurable. See [defaults](defaults/main.yml) for config reference.
+
+### Service / Systemloader
+
+This role will, by default, install a service on the target system, which is then used to start & stop each application 
+instance. The service wrapper to use can be configured using the `d
+eploy_service_type` variable. If not configured, we'll 
+chose the default service wrapper for the target system. Set `deploy_service_type: "none"` to do nothing and start the 
+deployed app on your own. See [defaults](defaults/main.yml) for config reference.
+
+
+### Deploy Additional Files
+
+Additional files like an `application.conf`, `logback.xml` or any other file / template can be deployed during the 
+process. To do so, see the following config example:
+
+```yml
+- hosts: centos6
+  vars:
+    ...
+    deploy_additional_templates:
+      - { 
+        src: "templates/application.conf.j2", 
+        dest: "{{ deploy_dir_config }}/application.conf" 
+      }
+      - { 
+        src: "templates/logback.xml.j2", 
+        dest: "{{ deploy_dir_config }}/logback.xml", 
+        mode: 0600 
+      }
+```
+
+Add one item for every file to be deployed and use the following configuration scheme:
+
+| Property  | Mandatory | Description                                   | Default                  |
+| --------- | --------- | --------------------------------------------- | ------------------------ |
+| src       | yes       | Template to render on local machine           | -                        |
+| dest      | yes       | Destination of the file on the local machine  | -                        |
+| mode      | no        | Mode (`chmod`) for the destination file       | 0644                     |
+| user      | no        | Owner (`chown`) of the destination file       | `{{ deploy_app_user }}`  |
+| group     | no        | Owner group (`chown`) of the destination file | `{{ deploy_app_group }}` |
+
+***Note:** These files are deployed per instance, so use the instance directory variables (e.g. 
+`{{ deploy_dir_config }}`) in destination path to prevent override.*
+
+All role variables are accessible within those templates, which is especially beneficial when configuring http ports, 
+paths, etc. The following example shows a hocon configuration, where those variables are used:
+
+```jinja2
+example {
+  http {
+    # Example to automatically set the application's http port
+    # This will output port '9001' for instance 1, '9002' for instance 2 and '9108' for instance 108
+    port: 9{{ '%03d'|format(deploy_instance_nr|int) }}
+
+    config-file-ref: {{ deploy_dir_config }}/some_file.txt
+  }
+}
+```
+
 Ideas / Todo
 ------------
 
