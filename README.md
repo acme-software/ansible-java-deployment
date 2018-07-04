@@ -99,7 +99,7 @@ process. To do so, see the following config example:
       - { 
         src: "templates/logback.xml.j2", 
         dest: "{{ deploy_dir_config }}/logback.xml", 
-        mode: 0600 
+        mode: "0600"
       }
 ```
 
