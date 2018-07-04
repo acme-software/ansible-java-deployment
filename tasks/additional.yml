@@ -6,7 +6,7 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.user | deploy_app_user }}"
-    group: "{{ item.group | deploy_app_group }}"
+    owner: "{{ item.user | default(deploy_app_user) }}"
+    group: "{{ item.group | default(deploy_app_group) }}"
     mode: "{{ item.mode | default('0644') }}"
   with_items: "{{ deploy_additional_templates }}"
