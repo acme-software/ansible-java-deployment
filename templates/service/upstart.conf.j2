@@ -37,4 +37,4 @@ end script
 {% endif %}
 
 # Execute deploy_service_start_command and log stdout
-exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}>>{{ deploy_log_stdout_path }}{% endif %}" {{ deploy_app_user }} --pid $PIDFILE
+exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}>>{{ deploy_log_stdout_path }}{% endif %}" {{ deploy_app_user }} -- --pid $PIDFILE
