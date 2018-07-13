@@ -103,6 +103,18 @@ process. To do so, see the following config example:
       }
 ```
 
+```yml
+- hosts: centos6
+  vars:
+    ...
+    deploy_additional_copy:
+      - { 
+        src: "/path/to/file", 
+        dest: "{{ deploy_dir_app }}/file",
+        mode: "0644" 
+      }
+```
+
 Add one item for every file to be deployed and use the following configuration scheme:
 
 | Property  | Mandatory | Description                                   | Default                  |
