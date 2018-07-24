@@ -1,0 +1,31 @@
+########################################################################################################
+#
+#                                       Systemd Script
+#
+# Systemd script for {{ deploy_app_name }} instance {{ deploy_instance_nr }}
+#
+# The application is located in: {{ deploy_dir_instance }}
+#
+# Usage:
+#   sudo systemctl start {{ deploy_service_name }}
+#   sudo systemctl stop {{ deploy_service_name }}
+#   sudo systemctl restart {{ deploy_service_name }}
+#   sudo systemctl status {{ deploy_service_name }}
+#
+#########################################################################################################
+
+
+[Unit]
+Description={{ app_description }}
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/rm -f {{ deploy_dir_app }}/RUNNING_PID
+ExecStart={{ deploy_dir_app }}/{{ deploy_service_start_command }}
+WorkingDirectory={{ deploy_dir_app }}
+User={{ deploy_app_user }}
+Group={{ deploy_app_group }}
+
+[Install]
+WantedBy=multi-user.target
