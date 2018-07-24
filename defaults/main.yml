@@ -102,6 +102,8 @@ deploy_log_stdout: True
 
 deploy_log_stdout_path: "{{ deploy_dir_logs }}/stdout.log"
 
+deploy_redirect_error_to_stdout: True
+
 # Service
 ###############################################
 
