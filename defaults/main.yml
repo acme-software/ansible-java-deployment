@@ -102,6 +102,10 @@ deploy_log_stdout: True
 
 deploy_log_stdout_path: "{{ deploy_dir_logs }}/stdout.log"
 
+deploy_log_stderr: True
+
+deploy_log_stderr_path: "{{ deploy_dir_logs }}/stderr.log"
+
 # Service
 ###############################################
 
@@ -116,6 +120,15 @@ deploy_service_start_command: "bin/{{ deploy_app_name }}"
 
 # PID file location for service installation
 deploy_service_pidfile: "/var/run/{{ deploy_service_name }}.pid"
+
+# If true, use deploy_service_prestop_script to run every time before the service is stopped
+deploy_service_has_preststop_script: False
+
+# Shell script to run if deploy_service_has_prestart_script is true
+deploy_service_preststop_script: ""
+
+# If true, service will start at boot time
+deploy_start_at_boot_time: False
 
 # Which service wrapper / systemloader you want to use
 #

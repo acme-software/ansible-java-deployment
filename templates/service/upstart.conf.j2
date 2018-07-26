@@ -26,6 +26,13 @@ env PIDFILE={{ deploy_service_pidfile }}
 respawn
 respawn limit 3 60
 
+{% if deploy_start_at_boot_time == True %}
+# When to start the service
+start on runlevel [2345]
+# When to stop the service
+stop on runlevel [016]
+{% endif %}
+
 # Change directory to current version of Tankmin
 chdir {{ deploy_dir_app }}
 
@@ -37,4 +44,11 @@ end script
 {% endif %}
 
 # Execute deploy_service_start_command and log stdout
-exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}>>{{ deploy_log_stdout_path }}{% endif %}" {{ deploy_app_user }} -- --pid $PIDFILE
+exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}" {{ deploy_app_user }} -- --pid $PIDFILE
+
+{% if deploy_service_has_prestop_script == True %}
+# Pre-Stop Script
+pre-stop script
+  {{ deploy_service_prestop_script }}
+end script
+{% endif %}
