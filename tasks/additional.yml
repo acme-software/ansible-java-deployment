@@ -37,3 +37,14 @@
     group: "{{ item.group | default(deploy_app_group) }}"
     mode: "{{ item.mode | default('0644') }}"
   with_items: "{{ deploy_additional_copy }}"
+
+- name: "Additional - Create directories"
+  become: yes
+  become_user: "{{ deploy_app_user }}"
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.user | default(deploy_app_user) }}"
+    group: "{{ item.group | default(deploy_app_group) }}"
+    mode: "{{ item.mode | default('0644') }}"
+  with_items: "{{ create_additional_dir }}"  
