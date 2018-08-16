@@ -156,3 +156,5 @@ deploy_service_systemd_location: "/etc/systemd/system/{{ deploy_app_name | lower
 deploy_additional_templates: []
 
 deploy_additional_copy: []
+
+create_additional_dir: []
