@@ -12,7 +12,7 @@
 
 - name: "Service - Check if registered in systemctl"
   become: true
-  command: "systemctl | grep {{ deploy_service_name }}"
+  command: "systemctl list-unit-files | grep {{ deploy_service_name }}"
   register: deploy_initctl_service_loaded
 
 - name: "Service - Ensure registered in initctl"

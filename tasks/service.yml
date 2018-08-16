@@ -11,6 +11,7 @@
         (deploy_service_type == "default" and ansible_distribution == "CentOS" and ansible_distribution_major_version == '7')        
 
 - name: "Service - Ensure {{ deploy_service_name }} starts on boot"
+  become: yes
   service:
     name: "{{ deploy_service_name }}"
     enabled: yes
