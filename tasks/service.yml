@@ -4,11 +4,11 @@
 
 - include_tasks: service/upstart.yml
   when: deploy_service_type == "upstart" or
-        (deploy_service_type == "default" and ansible_distribution == "CentOS" and ansible_distribution_major_version == '6')
+        (deploy_service_type == "default" and (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == '6')
 
 - include_tasks: service/systemd.yml
   when: deploy_service_type == "systemd" or
-        (deploy_service_type == "default" and ansible_distribution == "CentOS" and ansible_distribution_major_version == '7')        
+        (deploy_service_type == "default" and (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == '7')        
 
 - name: "Service - Ensure {{ deploy_service_name }} starts on boot"
   become: yes
