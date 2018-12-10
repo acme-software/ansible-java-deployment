@@ -122,7 +122,7 @@ deploy_service_start_command: "bin/{{ deploy_app_name }}"
 deploy_service_pidfile: "/var/run/{{ deploy_service_name }}.pid"
 
 # If true, use deploy_service_prestop_script to run every time before the service is stopped
-deploy_service_has_preststop_script: False
+deploy_service_has_prestop_script: False
 
 # If true, use deploy_service_poststop_script to run every time before the service is stopped
 deploy_service_has_poststop_script: False
