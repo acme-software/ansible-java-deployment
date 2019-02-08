@@ -112,8 +112,14 @@ deploy_log_stderr_path: "{{ deploy_dir_logs }}/stderr.log"
 # If true, use deploy_service_prestart_script to run every time before the service is (re-)started
 deploy_service_has_prestart_script: False
 
+# If true, use deploy_service_poststart_script to run every time after the service is (re-)started
+deploy_service_has_poststart_script: False
+
 # Shell script to run if deploy_service_has_prestart_script is true
 deploy_service_prestart_script: ""
+
+# Shell script to run if deploy_service_has_poststart_script is true
+deploy_service_poststart_script: ""
 
 # The shell command used by the service to start your application
 deploy_service_start_command: "bin/{{ deploy_app_name }}"
@@ -124,13 +130,13 @@ deploy_service_pidfile: "/var/run/{{ deploy_service_name }}.pid"
 # If true, use deploy_service_prestop_script to run every time before the service is stopped
 deploy_service_has_prestop_script: False
 
-# If true, use deploy_service_poststop_script to run every time before the service is stopped
+# If true, use deploy_service_poststop_script to run every time after the service is stopped
 deploy_service_has_poststop_script: False
 
-# Shell script to run if deploy_service_has_prestart_script is true
-deploy_service_preststop_script: ""
+# Shell script to run if deploy_service_has_prestop_script is true
+deploy_service_prestop_script: ""
 
-# Shell script to run if deploy_service_has_prestart_script is true
+# Shell script to run if deploy_service_has_poststop_script is true
 deploy_service_poststop_script: ""
 
 # If true, service will start at boot time

@@ -43,6 +43,13 @@ pre-start script
 end script
 {% endif %}
 
+{% if deploy_service_has_poststart_script == True %}
+# Post-Start Script
+post-start script
+  {{ deploy_service_poststart_script }}
+end script
+{% endif %}
+
 # Execute deploy_service_start_command and log stdout
 exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}" {{ deploy_app_user }} -- --pid $PIDFILE
 
