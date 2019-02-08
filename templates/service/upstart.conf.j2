@@ -18,10 +18,6 @@ description "Upstart script for {{ deploy_service_name }}"
 author "https://github.com/acme-software/ansible-java-deployment"
 version 1.0.0
 
-# Set environment variables
-env HOME={{ deploy_dir_app }}
-env PIDFILE={{ deploy_service_pidfile }}
-
 # Respawn parameters with limit: dies 3 times within 60 seconds
 respawn
 respawn limit 3 60
@@ -51,7 +47,7 @@ end script
 {% endif %}
 
 # Execute deploy_service_start_command and log stdout
-exec su -c "{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}" {{ deploy_app_user }} -- --pid $PIDFILE
+exec su -s /bin/sh -c '{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}' {{ deploy_app_user }}
 
 {% if deploy_service_has_prestop_script == True %}
 # Pre-Stop Script
