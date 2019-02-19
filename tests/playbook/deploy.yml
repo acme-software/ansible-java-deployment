@@ -10,7 +10,7 @@
     deploy_app_user: "bot-user"
     deploy_app_group: "bot-group"
     deploy_additional_templates:
-      - { src: "templates/application.conf.j2", dest: "{{ deploy_dir_config }}/application.conf" }
-      - { src: "templates/logback.xml.j2", dest: "{{ deploy_dir_config }}/logback.xml", mode: 600 }
+      - { src: "application.conf.j2", dest: "{{ deploy_dir_config }}/application.conf" }
+      - { src: "logback.xml.j2", dest: "{{ deploy_dir_config }}/logback.xml", mode: 600 }
   roles:
     - { role: ../../../ansible-java-deployment }
