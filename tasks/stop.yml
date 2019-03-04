@@ -11,4 +11,4 @@
   service:
     name: "{{ deploy_service_name }}"
     state: stopped
-  when: deploy_service_type != "none" and deploy_instance_exists.stat.exists == True 
+  when: deploy_service_type != "none" and deploy_instance_exists.stat.exists == True
