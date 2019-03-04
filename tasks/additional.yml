@@ -30,7 +30,7 @@
 - name: "Additional - Deploy copy files"
   become: yes
   become_user: "{{ deploy_app_user }}"
-  template:
+  copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.user | default(deploy_app_user) }}"

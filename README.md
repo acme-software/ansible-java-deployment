@@ -93,11 +93,11 @@ process. To do so, see the following config example:
     ...
     deploy_additional_templates:
       - { 
-        src: "templates/application.conf.j2", 
+        src: "application.conf.j2", 
         dest: "{{ deploy_dir_config }}/application.conf" 
       }
       - { 
-        src: "templates/logback.xml.j2", 
+        src: "logback.xml.j2", 
         dest: "{{ deploy_dir_config }}/logback.xml", 
         mode: "0600"
       }
@@ -109,7 +109,7 @@ process. To do so, see the following config example:
     ...
     deploy_additional_copy:
       - { 
-        src: "/path/to/file", 
+        src: "file", 
         dest: "{{ deploy_dir_app }}/file",
         mode: "0644" 
       }

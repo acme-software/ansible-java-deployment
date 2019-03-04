@@ -147,11 +147,11 @@ deploy_service_type: default
 
 deploy_service_name: "{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}"
 
-deploy_service_upstart_template: "templates/service/upstart.conf.j2"
+deploy_service_upstart_template: "service/upstart.conf.j2"
 
 deploy_service_upstart_location: "/etc/init/{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}.conf"
 
-deploy_service_systemd_template: "templates/service/systemd.service.j2"
+deploy_service_systemd_template: "service/systemd.service.j2"
 
 deploy_service_systemd_location: "/etc/systemd/system/{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}.service"
 
