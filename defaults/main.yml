@@ -153,6 +153,8 @@ deploy_service_type: default
 
 deploy_service_name: "{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}"
 
+deploy_service_description: "Service definition for {{ deploy_app_name }}"
+
 deploy_service_upstart_template: "service/upstart.conf.j2"
 
 deploy_service_upstart_location: "/etc/init/{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}.conf"
