@@ -9,13 +9,3 @@
 - name: "Service - Reload initctl config"
   become: true
   command: initctl reload-configuration
-
-- name: "Service - Check if registered in initctl"
-  become: true
-  command: "initctl list | grep {{ deploy_service_name }}"
-  register: deploy_initctl_service_loaded
-
-- name: "Service - Ensure registered in initctl"
-  fail:
-    msg: "Service {{ }} was not registered. This could be due to a misconfiguration in the upstart template."
-  when: deploy_initctl_service_loaded == deploy_service_name
