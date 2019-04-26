@@ -40,7 +40,6 @@
 
 - name: "Additional - Create directories"
   become: yes
-  become_user: "{{ deploy_app_user }}"
   file:
     path: "{{ item.path }}"
     state: directory
