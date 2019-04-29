@@ -6,16 +6,7 @@
     src: "{{ deploy_service_systemd_template }}"
     dest: "{{ deploy_service_systemd_location }}"
 
-- name: "Service - Reload initctl config"
+- name: "Service - Reload systemctl config"
   become: true
-  command: systemctl daemon-reload
-
-- name: "Service - Check if registered in systemctl"
-  become: true
-  command: "systemctl list-unit-files | grep {{ deploy_service_name }}"
-  register: deploy_initctl_service_loaded
-
-- name: "Service - Ensure registered in initctl"
-  fail:
-    msg: "Service {{ }} was not registered. This could be due to a misconfiguration in the systemd template."
-  when: deploy_initctl_service_loaded == deploy_service_name
+  systemd:
+    daemon_reload: yes
