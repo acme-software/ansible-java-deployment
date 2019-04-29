@@ -142,7 +142,7 @@ deploy_service_poststop_script: ""
 # If true, service will start at boot time
 deploy_start_at_boot_time: False
 
-# Which service wrapper / systemloader you want to use
+# Which service wrapper / system loader you want to use
 #
 # This can be default, upstart, systemd or none
 #
@@ -152,6 +152,8 @@ deploy_start_at_boot_time: False
 deploy_service_type: default
 
 deploy_service_name: "{{ deploy_app_name | lower }}-{{ deploy_instance_nr }}"
+
+deploy_service_description: "Service definition for {{ deploy_app_name }}"
 
 deploy_service_upstart_template: "service/upstart.conf.j2"
 
@@ -164,7 +166,7 @@ deploy_service_systemd_location: "/etc/systemd/system/{{ deploy_app_name | lower
 # Additional files
 ###############################################
 
-# Additionaly template files to deploy. See readme for usage instructions
+# Additional template files to deploy. See readme for usage instructions
 deploy_additional_templates: []
 
 deploy_additional_copy: []
