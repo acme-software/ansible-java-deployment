@@ -8,4 +8,4 @@
 
 - name: "Service - Reload initctl config"
   become: true
-  command: initctl reload-configuration
+  command: /sbin/initctl reload-configuration
