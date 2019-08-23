@@ -16,7 +16,7 @@
 
 description "{{ deploy_service_description }}"
 author "https://github.com/acme-software/ansible-java-deployment"
-version 1.0.1
+version 1.0.2
 
 # Respawn parameters with limit: dies 3 times within 60 seconds
 respawn
@@ -47,7 +47,7 @@ end script
 {% endif %}
 
 # Execute deploy_service_start_command and log stdout
-exec su -s /bin/sh -c '{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}' {{ deploy_app_user }}
+exec su -s /bin/sh -c 'exec "$0" "$@" {% if deploy_log_stdout == True %}1>>{{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>>{{ deploy_log_stderr_path }}{% endif %}' {{ deploy_app_user }} -- {{ deploy_service_start_command }} -b wibble
 
 {% if deploy_service_has_prestop_script == True %}
 # Pre-Stop Script
