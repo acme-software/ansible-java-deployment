@@ -139,6 +139,9 @@ deploy_service_prestop_script: ""
 # Shell script to run if deploy_service_has_poststop_script is true
 deploy_service_poststop_script: ""
 
+# If the `-b wibble` argument shall be passed to the start command (see http://upstart.ubuntu.com/cookbook/#changing-user)
+deploy_service_do_wibble: False
+
 # If true, service will start at boot time
 deploy_start_at_boot_time: False
 
