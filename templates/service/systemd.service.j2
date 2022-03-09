@@ -23,7 +23,7 @@ After=multi-user.target
 Type=simple
 Restart=on-failure
 {% if deploy_log_stdout == True or deploy_log_stderr == True %}
-ExecStart=/bin/sh -c "{{ deploy_dir_app }}/{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1> {{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>{{ deploy_log_stderr_path }}{% endif %}"
+ExecStart=/bin/sh -c "{{ deploy_dir_app }}/{{ deploy_service_start_command }} {% if deploy_log_stdout == True %}1>> {{ deploy_log_stdout_path }}{% endif %} {% if deploy_log_stderr == True %}2>> {{ deploy_log_stderr_path }}{% endif %}"
 {% else %}
 ExecStart={{ deploy_dir_app }}/{{ deploy_service_start_command }}
 {% endif %}
